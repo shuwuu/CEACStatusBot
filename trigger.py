@@ -64,5 +64,17 @@ try:
         notificationManager.addHandle(tgNotif)
 except KeyError:
     print("Telegram bot notification config error")
+    
+
+# 检查是否开启测试通知
+if os.environ.get("SEND_TEST_NOTIFICATION", "").lower() == "true":
+    try:
+        notificationManager.notifyAll("测试通知：CEACStatusBot 部署成功，邮件通道正常")
+        print("测试通知已发送，程序结束。")
+    except Exception as e:
+        print(f"发送测试通知失败: {e}")
+    # 提前退出，不继续检查签证状态
+    exit(0)
+
 
 notificationManager.send()
